@@ -283,6 +283,7 @@ export const ui = {
     },
     langSwitch: "עברית",
     navAria: "Primary",
+    visitorsLabel: "Unique visitors",
   },
   he: {
     name: "צחי (יצחק) אנידג׳אר",
@@ -322,6 +323,7 @@ export const ui = {
     },
     langSwitch: "EN",
     navAria: "ניווט ראשי",
+    visitorsLabel: "מבקרים ייחודיים",
   },
 } as const;
 

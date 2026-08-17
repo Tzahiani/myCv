@@ -4,6 +4,7 @@ import { Mail, Phone } from "lucide-react";
 import { Reveal } from "@/components/Reveal";
 import { SectionHeading } from "@/components/SectionHeading";
 import { LinkedInIcon, YouTubeIcon } from "@/components/SocialIcons";
+import { VisitorCounter } from "@/components/VisitorCounter";
 import { useLanguage } from "@/context/LanguageContext";
 import { links } from "@/data/content";
 
@@ -66,6 +67,7 @@ export function Connect() {
         <p className="mt-8 text-center text-xs text-zinc-600">
           © {new Date().getFullYear()} {t.shortName}
         </p>
+        <VisitorCounter />
       </div>
     </section>
   );
