@@ -13,33 +13,56 @@ const icons = {
   connect: MessageCircle,
 } as const;
 
+function getActiveSectionId() {
+  const scrollBottom = window.scrollY + window.innerHeight;
+  const docHeight = document.documentElement.scrollHeight;
+
+  // Last section is short and sits above the sticky nav — force it near page end
+  if (docHeight - scrollBottom < 120) {
+    return "connect";
+  }
+
+  // Pick the last section whose top has crossed ~35% of the viewport
+  const marker = window.scrollY + window.innerHeight * 0.35;
+  let current: (typeof navIds)[number] = "home";
+
+  for (const id of navIds) {
+    const el = document.getElementById(id);
+    if (!el) continue;
+    if (el.offsetTop <= marker) {
+      current = id;
+    }
+  }
+
+  return current;
+}
+
 export function BottomNav() {
   const { t } = useLanguage();
   const [active, setActive] = useState("home");
 
   useEffect(() => {
-    const sections = navIds.map((id) => document.getElementById(id));
+    let frame = 0;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-        if (visible?.target.id) {
-          setActive(visible.target.id);
-        }
-      },
-      {
-        rootMargin: "-20% 0px -55% 0px",
-        threshold: [0.15, 0.35, 0.55],
-      },
-    );
+    const update = () => {
+      frame = 0;
+      setActive(getActiveSectionId());
+    };
 
-    sections.forEach((section) => {
-      if (section) observer.observe(section);
-    });
+    const onScroll = () => {
+      if (frame) return;
+      frame = window.requestAnimationFrame(update);
+    };
 
-    return () => observer.disconnect();
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      if (frame) window.cancelAnimationFrame(frame);
+    };
   }, []);
 
   return (
