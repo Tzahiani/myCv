@@ -4,7 +4,7 @@ export const links = {
   email: "tanidgar@gmail.com",
   phone: "+972-52-8635700",
   phoneHref: "tel:+972528635700",
-  cvPath: "/Tzahi_Anidgar_CV.pdf",
+  cvPath: "/api/cv",
   photo: "/tzahi.png",
   linkedin: "https://www.linkedin.com/in/tzahi-anidgar-b8947b255",
   youtube: "https://www.youtube.com/@FromZeroToPilot",
